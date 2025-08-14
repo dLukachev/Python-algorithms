@@ -94,3 +94,34 @@ class BigO:
         middle = [x for x in data if x == pivot]
         right = [x for x in data if x > pivot]
         return BigO.quick_sort(left) + middle + BigO.quick_sort(right)
+    
+
+class BinarySearch:
+    @staticmethod
+    @BigO.timeit
+    def search(arr, target):
+        left = 0
+        right = len(arr) - 1
+        
+        while left <= right:
+            mid = (left + right) // 2  # Находим середину
+            if arr[mid] == target:
+                return mid  # Нашли, возвращаем индекс
+            elif arr[mid] < target:
+                left = mid + 1  # Ищем в правой половине
+            else:
+                right = mid - 1  # Ищем в левой половине
+        return -1  # Элемент не найден
+    
+    @staticmethod
+    @BigO.timeit
+    def search_recursive(arr, target, left, right):
+        if left > right:
+            return -1  # Элемент не найден
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            return BinarySearch.search_recursive(arr, target, mid + 1, right)
+        else:
+            return BinarySearch.search_recursive(arr, target, left, mid - 1)
